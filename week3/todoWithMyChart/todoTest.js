@@ -23,7 +23,6 @@ todoSuite.add("todo-crud", assert => {
     assert.is(todoContainer.children.length, 0*elementsPerRow);
     assert.is(numberOfTasks.innerText, '0');
     assert.is(openTasks.innerText, '0');
-    assert.is(todoController.getOpenPercentage(), '0');
 
     todoController.addTodo();
 

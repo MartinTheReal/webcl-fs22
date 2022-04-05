@@ -45,3 +45,18 @@ input[type=text]:focus {
 input.invalid {
     color: red;
 }
+#progress {
+    background-color: green;
+    margin-top: 1rem;
+    height: 1rem;
+    position: relative;
+    --progress-pct: 20%; /* css property wird unten verwendet. Benutzen wir, da ein Pseudoelement (::before) nicht aus dem DOM angesprochen werden kann.   */
+
+}
+#progress::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: red;
+    width: var(--progress-pct);
+}

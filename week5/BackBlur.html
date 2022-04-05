@@ -33,6 +33,16 @@
         }
 
         /* todo: make a rainbow-colored shadow by blurring a positioned background */
+        .rainbow::before { /*// im stacking kontext werden kinder daüber gezeichnet. --> aus flow modus in position modus um z order setzen.*/
+            content: "";
+            position: absolute;
+            inset: -.5em;
+            /*background: blue;*/
+            background-image: linear-gradient(90deg, blueviolet, violet, indigo,blue,green, yellow, orange, red, purple);
+            z-index: -1;
+            border-radius: inherit;
+            filter: blur(.3em);
+        }
 
         .rainbow::before {
             content: "";

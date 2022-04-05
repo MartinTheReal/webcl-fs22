@@ -4,7 +4,7 @@ import { todoItemProjector }        from "./todoProjector.js";
 import { Scheduler }                from "../dataflow/dataflow.js";
 import { fortuneService }           from "./fortuneService.js";
 
-export { TodoController, TodoItemsView, TodoTotalView, TodoOpenView, TodoProgressView}
+export { TodoController, TodoItemsView, TodoTotalView, TodoOpenView}
 
 const TodoController = () => {
 
@@ -51,26 +51,15 @@ const TodoController = () => {
            )
         );
     };
-    const numberOfTodos = todoModel.count;
-    const numberOfopenTasks = () =>
-        todoModel.countIf( todo => ! todo.getDone() );
-
-    const getOpenPercentage = () =>
-        numberOfTodos() === 0
-            ? 0
-            : 100 * numberOfopenTasks() / numberOfTodos();
-
 
     return {
-        // numberOfTodos:      numberOfTodos,
-        numberOfTodos, // erleichterte Schreibweise.
-        numberOfopenTasks,
-        getOpenPercentage,
-        addTodo,
-        addFortuneTodo,
-        removeTodo:   todoModel.del,
-        onTodoAdd:    todoModel.onAdd,
-        onTodoRemove: todoModel.onDel,
+        numberOfTodos:      todoModel.count,
+        numberOfopenTasks:  () => todoModel.countIf( todo => ! todo.getDone() ),
+        addTodo:            addTodo,
+        addFortuneTodo:     addFortuneTodo,
+        removeTodo:         todoModel.del,
+        onTodoAdd:          todoModel.onAdd,
+        onTodoRemove:       todoModel.onDel,
         removeTodoRemoveListener: todoModel.removeDeleteListener, // only for the test case, not used below
     }
 };
@@ -114,20 +103,3 @@ const TodoOpenView = (todoController, numberOfOpenTasksElement) => {
     });
     todoController.onTodoRemove(render);
 };
-
-const TodoProgressView = (todoController, progressElement) => {
-
-    const render = () => {
-        // const pct = 100 * todoController.numberOfopenTasks() / todoController.numberOfTodos()
-        const pct = todoController.getOpenPercentage();
-        progressElement.style.setProperty("--progress-pct", String(pct) + "%");
-    }
-
-// binding
-
-    todoController.onTodoAdd(todo => {
-        render();
-        todo.onDoneChanged(render);
-    });
-    todoController.onTodoRemove(render);
-}
