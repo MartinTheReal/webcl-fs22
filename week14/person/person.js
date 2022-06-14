@@ -74,20 +74,20 @@ const MasterView = (listController, selectionController, rootElement) => {
 };
 
 const reset = person => {
-    person.firstname.setQualifier(undefined);  // todo: make generic, unset all qualifiers
-    person.lastname.setQualifier(undefined);
-    person.firstname.setConvertedValue("");
-    person.lastname.setConvertedValue("");
+    ALL_ATTRIBUTE_NAMES.forEach( name => {
+        person[name].setQualifier(undefined);
+        person[name].setConvertedValue("");
+    });
     return person;
 };
 
 const noPerson = reset(Person());
-noPerson.firstname.setQualifier("Person.none.firstname");
-noPerson.lastname .setQualifier("Person.none.lastname");
-noPerson.detailed .setQualifier("Person.none.detailed");
-noPerson.detailed .getObs(VALUE).setValue(false);
-noPerson.firstname.getObs(EDITABLE).setValue(false);
-noPerson.lastname .getObs(EDITABLE).setValue(false);
+ALL_ATTRIBUTE_NAMES.forEach( name => {
+    noPerson[name].setQualifier("Person.none."+name);
+    noPerson[name].getObs(EDITABLE).setValue(false);
+});
+noPerson.detailed.setQualifier("Person.none.detailed");
+noPerson.detailed.getObs(VALUE).setValue(false);
 
 const selectionMold = reset(Person());
 
